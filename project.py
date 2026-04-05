@@ -19,15 +19,17 @@ def grade_to_pass_fail(grade):
 df['pass_fail'] = df['final_grade'].apply(grade_to_pass_fail)
 
 #verifying class distribution
-print("The value counts in the pass/fail column are:/n",
-       df['pass_fail'].value_counts())
+# print("The value counts in the pass/fail column are:/n",
+#        df['pass_fail'].value_counts())
 
-sns.barplot(data=df['pass_fail'].value_counts())
-plt.title("Class Distribution of pass and fail")
-plt.show()
+# sns.barplot(data=df['pass_fail'].value_counts())
+# plt.title("Class Distribution of pass and fail")
+# plt.show()
 
 # Drop columns not needed
-df = df.drop(['student_id', 'final_grade'], axis=1)
+df = df.drop(['math_score', 'science_score', 'english_score',
+               'overall_score', 'student_id', 'final_grade'],
+                axis=1)
 
 # Encode categorical columns
 label_encoder = LabelEncoder()
