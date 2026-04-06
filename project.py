@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
 import seaborn as sns
@@ -31,14 +30,11 @@ df = df.drop(['math_score', 'science_score', 'english_score',
                'overall_score', 'student_id', 'final_grade'],
                 axis=1)
 
-# Encode categorical columns
-label_encoder = LabelEncoder()
-for column in df.select_dtypes(include=['object']).columns:
-    df[column] = label_encoder.fit_transform(df[column])
-
 # Split features and target
 X = df.drop('pass_fail', axis=1)
 y = df['pass_fail']
+
+X = pd.get_dummies(X, drop_first=True)
 
 # Train/test split
 X_train, X_test, y_train, y_test = train_test_split(
