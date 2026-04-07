@@ -4,6 +4,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 # Load dataset
 df = pd.read_csv("Student_Performance_new.csv")
@@ -38,11 +39,11 @@ X = pd.get_dummies(X, drop_first=True)
 
 # Train/test split
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X, y, test_size=0.2, random_state=42, stratify=y
 )
 
 # Train model
-model = DecisionTreeClassifier()
+model = DecisionTreeClassifier(max_depth=5, random_state=42)
 model.fit(X_train, y_train)
 
 # Make predictions
@@ -52,3 +53,9 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+conf_matrix = confusion_matrix(y_test, y_pred)
+print("\nConfusion Matrix:\n", conf_matrix)
+ConfusionMatrixDisplay(conf_matrix).plot()
+plt.title("Confusion Matrix Display")
+plt.show()
